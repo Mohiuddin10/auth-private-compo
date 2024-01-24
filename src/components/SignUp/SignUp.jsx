@@ -1,5 +1,6 @@
 import { useContext, useState } from "react";
 import { AuthContext } from "../../Hook/AuthProvider";
+import Swal from "sweetalert2";
 
 
 
@@ -26,7 +27,42 @@ const SignUp = () => {
     // const handlePasswordChange = (text) => {
     //     setPassword(text);
     // }
-    console.log(email, password);
+
+    const handleGoogleSignUp = () => {
+        googleSignUp()
+        .then(result => {
+            console.log(result.user);
+            Swal.fire({
+                title: "Done",
+                text: `${result.user.displayName ? result.user.displayName : "User"} account created successfully`,
+                imageUrl: `${result.user.photoURL}`,
+                imageWidth: 60,
+                imageHeight: 60,
+                imageAlt: "Custom image"
+              });
+        })
+    }
+    
+    const handleSignUp = (e) => {
+        e.preventDefault()
+        if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(password)){
+            setError('Minimum eight characters, at least one letter, one number and one special character')
+        }
+        else{
+            setError("")
+            if(email){
+                userSignUp(email, password)
+                .then(result => {
+                    console.log(result.user);
+                    Swal.fire({
+                        title: `${result.user.displayName ? result.user.displayName : 'New user'} created successfully`,
+                        text: "Thank you",
+                        icon: "success"
+                      });
+                })
+            }
+        }
+    }
 
     return (
         <div className="hero min-h-screen bg-base-200">
@@ -47,13 +83,14 @@ const SignUp = () => {
                                 <span className="label-text">Password</span>
                             </label>
                             <input type="password" onChange={(e) => setPassword(e.target.value)} name="password" placeholder="password" className="input input-bordered" required />
+                            <p>{error}</p>
                             <label className="label">
                                 <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
                             </label>
                         </div>
                         <div className="form-control mt-6">
-                            <button className="btn btn-primary">Login</button>
-                            <button onClick={googleSignUp} className="btn btn-[gray]">Google</button>
+                            <button onClick={handleSignUp} className="btn btn-primary">Login</button>
+                            <button onClick={handleGoogleSignUp} className="btn btn-[gray]">Google</button>
                         </div>
                     </form>
                 </div>
