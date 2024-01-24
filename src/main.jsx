@@ -1,13 +1,13 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './App.jsx'
+import SignUp from './components/SignUp/SignUp.jsx'
 import './index.css'
 import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
 import AuthProvider from './Hook/AuthProvider.jsx';
-import SignIn from './components/SignIn/SignIn.jsx';
+import Login from './components/Login/Login.jsx';
 
 const router = createBrowserRouter([
   {
@@ -15,8 +15,12 @@ const router = createBrowserRouter([
     element: <div>Hello world!</div>,
   },
   {
-    path: "/signin",
-    element: <SignIn></SignIn>
+    path: "/signUp",
+    element: <SignUp></SignUp>
+  },
+  {
+    path: '/login',
+    element: <Login></Login>
   }
 ]);
 
